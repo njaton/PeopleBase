@@ -23,19 +23,36 @@ values
     (9,'Bruce', 19, 'Car Sales Person',52000),
 	(10,'Freddy', 34, 'CEO',104000);
     
+INSERT INTO `peopledata`.`new_table`
+(`ID`,`Name`,`Age`,`Job`,`Salary`)
+values 
+	(11,'Josh', 42, 'Aerospace Engineer', 95000),
+	(12,'Asheley', 22, 'database Admin',59000),
+	(13,'John', 33, 'Civil Engineer', 74000),
+	(14,'Jackie', 32, 'CIO',125000),
+    (15,'Matt', 29, 'Consultant',92000),
+    (16,'Zach', 36, 'Data Scientist',99000),
+    (17,'Jesse', 24, 'Actress', 22000),
+    (18,'Forest', 27, 'Musician', 17000),
+	(19,'Anna', 38, 'Police Officier',104000);
+    
 update peopledata.new_table 
 set Name = 'Tom'
 where id = '1';
 
+alter table peopledata.new_table
+add column Degree varchar(60) after Age;
+    
+
 #Get General Demographics
 select avg(salary)
-from peopledata.new_table; #59700,00
+from peopledata.new_table; #67578.95
 
 select min(salary)
-from peopledata.new_table; #24000
+from peopledata.new_table; #17000
 
 select max(salary)
-from peopledata.new_table; #1040000
+from peopledata.new_table; #125000
 
 select stddev(salary)
-from peopledata.new_table; #21123.683
+from peopledata.new_table; #29729.16
