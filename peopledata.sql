@@ -40,9 +40,38 @@ update peopledata.new_table
 set Name = 'Tom'
 where id = '1';
 
+update peopledata.new_table
+set Job = 'Database Admin'
+where ID = '12';
+
 alter table peopledata.new_table
 add column Degree varchar(60) after Age;
-    
+ 
+set sql_mode='';
+insert into `peopledata`.`new_table`
+	(`ID`,`Degree`)
+values 
+	(1,'BA'),
+    (2,'BS'),
+    (3,'BS'),
+    (4,'BS'),
+    (5,'None'),
+    (6,'MA'),
+    (7,'BS'),
+    (8,'BA'),
+    (9,'BS'),
+    (10,'None'),
+    (11,'MS'),
+    (12,'BS'),
+    (13,'BS'),
+    (14,'PhD'),
+    (15,'None'),
+    (16,'MS'),
+    (17,'None'),
+    (18,'MA'),
+    (19,'BS')
+on duplicate key update `id`=values(`id`), Degree=values(`Degree`);
+
 
 #Get General Demographics
 select avg(salary)
@@ -56,3 +85,15 @@ from peopledata.new_table; #125000
 
 select stddev(salary)
 from peopledata.new_table; #29729.16
+
+select count(*)
+from peopledata.new_table
+where Degree = 'BS'; #8
+
+select avg(salary)
+from peopledata.new_table
+where degree = 'BS'; #65750.00
+
+select avg(salary)
+from peopledata.new_table
+where degree = 'BS' and age > '24'; #77750.00
