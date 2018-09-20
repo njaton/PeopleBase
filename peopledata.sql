@@ -97,3 +97,71 @@ where degree = 'BS'; #65750.00
 select avg(salary)
 from peopledata.new_table
 where degree = 'BS' and age > '24'; #77750.00
+
+#Second table
+CREATE TABLE `peopledata`.`Second_Table` (
+  `idnew_table` INT NOT NULL,
+  `House / Apartment` VARCHAR(45) NOT NULL,
+  `Home_Value` INT NOT NULL,
+  PRIMARY KEY (`idnew_table`));
+  
+alter table `peopledata`.`Second_Table`modify `Home_Value` int;
+
+insert into `peopledata`.`Second_Table` (`idnew_table`,`House / Apartment`,`Home_Value`)
+value
+	(1, 'House', '105000'),
+    (2, 'Apartment', NULL),
+    (3, 'House', '135000'),
+    (4, 'House', '205000'),
+    (5, 'Apartment', NULL),
+    (6, 'Apartment', '128000'),
+    (7, 'House', '165000'),
+    (8, 'House', '153000'),
+    (9, 'House', '105000'),
+    (10, 'Apartment', NULL),
+    (11, 'Apartment', NULL),
+    (12, 'House', '200000'),
+    (13, 'House', '210000'),
+    (14, 'House', '265000'),
+    (15, 'Apartment', NULL),
+    (16, 'House', '125000'),
+    (17, 'House', '99000'),
+    (18, 'Apartment', NULL),
+    (19, 'House', '175000');
+    
+select * 
+from peopledata.Second_Table;
+
+#Join Options
+ 
+select *
+from peopledata.new_table
+inner join peopledata.Second_Table
+on ID=idnew_table;
+
+select ID, Age, Salary, Home_Value
+from peopledata.new_table
+left outer join peopledata.Second_Table
+	on ID = idnew_table
+where Home_Value is not null and salary >= 60000
+group by ID DESC;
+
+#Get General Demographics
+select avg(Salary) 
+from peopledata.new_table
+where ID in (select idnew_table from peopledata.Second_Table
+				where `House / Apartment` is not null) and age <= 40; #66055.55
+ 
+select avg(Age)
+from peopledata.new_table
+where ID in (select idnew_table
+				from peopledata.Second_Table
+                where `Home_Value` >= 120 and `Home_Value` <= 200000); #27.000
+                
+                
+select stddev(Age)
+from peopledata.new_table
+where ID in (select idnew_table
+				from peopledata.Second_Table
+                where `Home_Value` >= 120 and `Home_Value` <= 200000); #6.5422
+                
