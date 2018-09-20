@@ -4,11 +4,15 @@ INSERT INTO `peopledata`.`new_table`
 (`ID`,`Name`,`Age`,`Job`,`Salary`)
 VALUES (1,'tom',22,'Retail Manager',24000);
 
-select * 
-from peopledata.new_table;
+SELECT 
+    *
+FROM
+    peopledata.new_table;
 
 SET SQL_SAFE_UPDATES = 0;
-delete from peopledata.new_table where id = '2';
+DELETE FROM peopledata.new_table 
+WHERE
+    id = '2';
 
 INSERT INTO `peopledata`.`new_table`
 (`ID`,`Name`,`Age`,`Job`,`Salary`)
@@ -36,13 +40,17 @@ values
     (18,'Forest', 27, 'Musician', 17000),
 	(19,'Anna', 38, 'Police Officier',104000);
     
-update peopledata.new_table 
-set Name = 'Tom'
-where id = '1';
+UPDATE peopledata.new_table 
+SET 
+    Name = 'Tom'
+WHERE
+    id = '1';
 
-update peopledata.new_table
-set Job = 'Database Admin'
-where ID = '12';
+UPDATE peopledata.new_table 
+SET 
+    Job = 'Database Admin'
+WHERE
+    ID = '12';
 
 alter table peopledata.new_table
 add column Degree varchar(60) after Age;
@@ -73,37 +81,39 @@ values
 on duplicate key update `id`=values(`id`), Degree=values(`Degree`);
 
 
-#Get General Demographics
-select avg(salary)
-from peopledata.new_table; #67578.95
-
-select min(salary)
-from peopledata.new_table; #17000
-
-select max(salary)
-from peopledata.new_table; #125000
-
-select stddev(salary)
-from peopledata.new_table; #29729.16
-
-select count(*)
-from peopledata.new_table
-where Degree = 'BS'; #8
-
-select avg(salary)
-from peopledata.new_table
-where degree = 'BS'; #65750.00
-
-select avg(salary)
-from peopledata.new_table
-where degree = 'BS' and age > '24'; #77750.00
-
-#Second table
-CREATE TABLE `peopledata`.`Second_Table` (
-  `idnew_table` INT NOT NULL,
-  `House / Apartment` VARCHAR(45) NOT NULL,
-  `Home_Value` INT NOT NULL,
-  PRIMARY KEY (`idnew_table`));
+SELECT 
+    AVG(salary)
+FROM
+    peopledata.new_table;SELECT 
+    MIN(salary)
+FROM
+    peopledata.new_table;SELECT 
+    MAX(salary)
+FROM
+    peopledata.new_table;SELECT 
+    STDDEV(salary)
+FROM
+    peopledata.new_table;SELECT 
+    COUNT(*)
+FROM
+    peopledata.new_table
+WHERE
+    Degree = 'BS';SELECT 
+    AVG(salary)
+FROM
+    peopledata.new_table
+WHERE
+    degree = 'BS';SELECT 
+    AVG(salary)
+FROM
+    peopledata.new_table
+WHERE
+    degree = 'BS' AND age > '24';CREATE TABLE `peopledata`.`Second_Table` (
+    `idnew_table` INT NOT NULL,
+    `House / Apartment` VARCHAR(45) NOT NULL,
+    `Home_Value` INT NOT NULL,
+    PRIMARY KEY (`idnew_table`)
+);
   
 alter table `peopledata`.`Second_Table`modify `Home_Value` int;
 
@@ -129,39 +139,61 @@ value
     (18, 'Apartment', NULL),
     (19, 'House', '175000');
     
-select * 
-from peopledata.Second_Table;
+SELECT 
+    *
+FROM
+    peopledata.Second_Table;
 
-#Join Options
- 
-select *
-from peopledata.new_table
-inner join peopledata.Second_Table
-on ID=idnew_table;
+SELECT 
+    *
+FROM
+    peopledata.new_table
+        INNER JOIN
+    peopledata.Second_Table ON ID = idnew_table;
 
-select ID, Age, Salary, Home_Value
-from peopledata.new_table
-left outer join peopledata.Second_Table
-	on ID = idnew_table
-where Home_Value is not null and salary >= 60000
-group by ID DESC;
+SELECT 
+    ID, Age, Salary, Home_Value
+FROM
+    peopledata.new_table
+        LEFT OUTER JOIN
+    peopledata.Second_Table ON ID = idnew_table
+WHERE
+    Home_Value IS NOT NULL
+        AND salary >= 60000
+GROUP BY ID DESC;
 
-#Get General Demographics
-select avg(Salary) 
-from peopledata.new_table
-where ID in (select idnew_table from peopledata.Second_Table
-				where `House / Apartment` is not null) and age <= 40; #66055.55
- 
-select avg(Age)
-from peopledata.new_table
-where ID in (select idnew_table
-				from peopledata.Second_Table
-                where `Home_Value` >= 120 and `Home_Value` <= 200000); #27.000
-                
-                
-select stddev(Age)
-from peopledata.new_table
-where ID in (select idnew_table
-				from peopledata.Second_Table
-                where `Home_Value` >= 120 and `Home_Value` <= 200000); #6.5422
+SELECT 
+    AVG(Salary)
+FROM
+    peopledata.new_table
+WHERE
+    ID IN (SELECT 
+            idnew_table
+        FROM
+            peopledata.Second_Table
+        WHERE
+            `House / Apartment` IS NOT NULL)
+        AND age <= 40;SELECT 
+    AVG(Age)
+FROM
+    peopledata.new_table
+WHERE
+    ID IN (SELECT 
+            idnew_table
+        FROM
+            peopledata.Second_Table
+        WHERE
+            `Home_Value` >= 120
+                AND `Home_Value` <= 200000);SELECT 
+    STDDEV(Age)
+FROM
+    peopledata.new_table
+WHERE
+    ID IN (SELECT 
+            idnew_table
+        FROM
+            peopledata.Second_Table
+        WHERE
+            `Home_Value` >= 120
+                AND `Home_Value` <= 200000); #6.5422
                 
