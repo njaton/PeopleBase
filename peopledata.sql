@@ -187,3 +187,47 @@ RENAME TABLE `peopledata`.`3rd_Table` TO `peopledata`.`Third_Table`;
 		
 SELECT * 
 FROM peopledata.Third_Table;
+
+SELECT COUNT(ID)
+FROM peopledata.new_table
+WHERE ID IN (SELECT id3rd_Table
+			FROM peopledata.Third_Table
+            WHERE Computer = 'MAC'); #7
+            
+SELECT COUNT(ID)
+FROM peopledata.new_table
+WHERE ID IN (SELECT id3rd_Table
+			FROM peopledata.Third_Table
+            WHERE Computer = 'MAC' and 
+            id3rd_Table in (SELECT idnew_table
+							FROM peopledata.Second_Table
+							WHERE `Home_Value` >= 110 AND 
+							`Home_Value` <= 200000)); #3
+                            
+#All 3 tables in one. 
+select * 
+from peopledata.new_table
+full join peopledata.Second_Table on ID = idnew_table
+left join peopledata.Third_Table on ID = id3rd_Table
+group by ID; 
+
+select ID, Name, Job, Salary, `Pet Amount`
+from peopledata.new_table
+left outer join peopledata.Second_Table on ID = idnew_table
+left outer join peopledata.Third_Table on ID = id3rd_Table
+where `House / Apartment`='Apartment' and salary > 50000 and Computer = 'MAC'
+group by ID;
+
+select ID, Name, Job, Salary, `Pet Amount`
+from peopledata.new_table
+inner join peopledata.Second_Table on ID = idnew_table
+inner join peopledata.Third_Table on ID = id3rd_Table
+where `House / Apartment`='Apartment' and salary > 50000 and Computer = 'MAC'
+group by ID;
+
+select `Pet Amount`, AVG(Salary)
+from peopledata.new_table
+left outer join peopledata.Second_Table on ID = idnew_table
+left outer join peopledata.Third_Table on ID = id3rd_Table
+where  salary > 30000 and Computer = 'PC'
+group by `Pet Amount` DESC;
