@@ -35,5 +35,12 @@ where `language` in (select * from (select `language`
 group by `language`
 order by AVG(Percentage) DESC; 
 
+select `language`, AVG(Population)
+from world.country
+left outer join world.countrylanguage on `Code` = `CountryCode`
+where `language`= 'English' or `language`= 'Spanish' or `language`= 'Arabic'
+group by `language` 
+order by AVG(Population) DESC;
 
+# Spanish = 26796314.2857, Arabic = 16728639.3939, English = 10456971.6667
 
