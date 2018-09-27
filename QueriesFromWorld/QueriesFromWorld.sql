@@ -77,4 +77,51 @@ order by AVG(world.country.LifeExpectancy);
 # Chinese AVG = 72.26667, STD = 6.072341614054272
 
 #---------------------------------------------------------------
+# Goal: Find out how many countries start with an H.
 
+select count(distinct Name)
+from world.country
+where `Name` like "H%";
+ #There are 6 
+ 
+#--------------------------------------------------------------
+# Goal: Find the countries with a population over 5,000,000 that start with an S or A.
+
+select * 
+from world.country
+where `Name` like "A%" or `Name` like "S" and `Population` > 5000000
+order by `Population`DESC;
+
+# Goal: Alter query to get the average Population and Life Expectancy.
+
+select AVG(`Population`), AVG(`LifeExpectancy`)
+from world.country
+where `Name` like "A%" or `Name` like "S" and `Population` > 5000000;
+#Pop = 9737266.6667, LE = 69.35714
+#--------------------------------------------------------------- 
+# Goal: Find out how many countries have English and Pashto as their official language.
+
+select count(*)
+from world.countrylanguage
+where `Language` = 'English' and `IsOfficial` = 'T';
+# 44 Countries 
+
+select count(*)
+from world.countrylanguage
+where `Language` = 'Pashto' and `IsOfficial` = 'T';
+# 1 Country
+#--------------------------------------------------------------
+# Goal: Find the average life Expectancy of the one country that uses Pashto officailly. 
+
+select avg(LifeExpectancy)
+from world.country
+join world.countrylanguage on `Code` = `CountryCode`
+where `language` = 'Pashto' and `IsOfficial` = 'T'group by `language`
+order by avg(LifeExpectancy);
+
+# 45.9 years
+#-------------------------------------------------------------
+
+
+
+ 
