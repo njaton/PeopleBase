@@ -121,7 +121,60 @@ order by avg(LifeExpectancy);
 
 # 45.9 years
 #-------------------------------------------------------------
+# Goal: Find the amount of North American countries have spanish as their official language.
 
+select count(*)
+from world.country 
+join world.countrylanguage on `Code` = `CountryCode`
+where `language` = 'Spanish' and `IsOfficial` = 'T'group by `language` and Continent = 'North American';
+#20 
 
+# Goal: Get a idea of the current GNP status of said countries. 
+select min(GNP), max(GNP), avg(GNP), stddev(GNP)
+from world.country 
+join world.countrylanguage on `Code` = `CountryCode`
+where `language` = 'Spanish' and `IsOfficial` = 'T'group by `language` and Continent = 'North American';
+# min = 1988.00, max = 553233.00, avg = 91320.250000, std = 151611.22998771397
+#------------------------------------------------------------
+# Goal: Find the top 3 most populated cities.
 
- 
+select *
+from world.city
+order by Population desc 
+limit 3;
+# Mumbai(Bombay) = 10500000, Seoul = 9981619 , Saeo Paulo = 9968485
+
+# Goal: find the mean life expectancy of the countries they belong to. 
+select avg(LifeExpectancy)
+from world.country 
+join world.city on `Code` = `CountryCode`
+where world.city.Population > 9950000;
+# 66.60000 years 
+
+# Goal: Compare that value with the average life expectancy
+select avg(LifeExpectancy)
+from world.country;
+# 66.48604
+#pretty similar! 
+#------------------------------------------------------------
+# Goal: How many countries have over 5,000,000 people
+
+select count(*) 
+from world.city
+where world.city.Population > 5000000;
+#24 
+
+# Goal: How many of these cities are in North America 
+select count(*)
+from world.country 
+join world.city on `Code` = `CountryCode`
+where world.city.Population > 5000000 and world.country.Continent = 'North America';
+# 2
+
+# Goal: Who are these cities
+select world.city.Name
+from world.country 
+join world.city on `Code` = `CountryCode`
+where world.city.Population > 5000000 and world.country.Continent = 'North America';
+#Ciudad de MÃ©xico, New York
+#-----------------------------------------------------------
