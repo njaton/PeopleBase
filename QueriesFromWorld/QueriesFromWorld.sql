@@ -178,3 +178,26 @@ join world.city on `Code` = `CountryCode`
 where world.city.Population > 5000000 and world.country.Continent = 'North America';
 #Ciudad de MÃ©xico, New York
 #-----------------------------------------------------------
+# Goal: Determine the most popular forms of Government 
+
+select GovernmentForm, count(GovernmentForm)
+from world.country
+group by GovernmentForm 
+order by count(GovernmentForm) DESC
+limit 5;
+
+# Top 5: Republic, Constitutional Monarchy, Federal Republic, Dependent Territory of the UK,Monarchy
+
+
+# Goal: How does this compare with the governments found in Asia
+
+select GovernmentForm, count(GovernmentForm)
+from world.country
+where Continent = 'Asia' 
+group by GovernmentForm 
+order by count(GovernmentForm) DESC
+limit 5;
+
+# Top 5: Republic, Constitutional Monarchy, Monarchy, Special Administrative Region of China, Monarchy (Sultanate)
+# Rather similar to the total.
+#-----------------------------------------------------------
