@@ -97,7 +97,9 @@ WHERE degree = 'BS';
 
 SELECT AVG(salary)
 FROM peopledata.new_table
-WHERE degree = 'BS' AND age > '24';CREATE TABLE `peopledata`.`Second_Table` (
+WHERE degree = 'BS' AND age > '24';
+
+CREATE TABLE `peopledata`.`Second_Table` (
     `idnew_table` INT NOT NULL,
     `House / Apartment` VARCHAR(45) NOT NULL,
     `Home_Value` INT NOT NULL,
