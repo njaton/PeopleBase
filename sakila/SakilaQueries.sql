@@ -78,3 +78,48 @@ from film_actor
 where film_id in (select film_id from film 
 					where length > 160 and rating = 'G'); # 124
 #--------------------------------------------------------------
+# Goal: Get the average replacement cost and the standard deviation.
+select avg(replacement_cost), std(replacement_cost)
+from film; #avg = 19.98, std=6.048
+
+# Goal: How does this change if the video is over 150 min
+select avg(replacement_cost), std(replacement_cost)
+from film
+where length > 150; # avg = 19.90, std = 6.124
+
+# Goal: Get the amount of videos below and above the avg and find max / min 
+select count(*), min(replacement_cost)
+from film 
+where length > 150 and replacement_cost < 19.90; #count = 113, min = 9.99
+
+select count(*), max(replacement_cost)
+from film 
+where length >150 and replacement_cost > 19.90; #count = 129 and max = 29.99
+#----------------------------------------------------------------
+# Goal: What acters have videos with a 29.99 replacement cost.  
+select distinct actor_id
+from film_actor 
+where film_id in (select film_id from film
+					where replacement_cost = 29.99)
+order by actor_id ASC; 
+
+# Goal: How many actors where included in the last statement. 
+select count(distinct actor_id)
+from film_actor 
+where film_id in (select film_id from film
+					where replacement_cost = 29.99); #162
+
+# Goal: What actors have been in a movie with a 29.99 replacement cost 
+# 		that also have a rental rate of 4.99
+select distinct actor_id
+from film_actor 
+where film_id in (select film_id from film
+					where replacement_cost = 29.99 and rental_rate = 4.99)
+order by actor_id ASC; 
+
+# Goal: How many actors where included in the last statement. 
+select count(distinct actor_id)
+from film_actor 
+where film_id in (select film_id from film
+					where replacement_cost = 29.99 and rental_rate = 4.99); #45 
+#---------------------------------------------------------------
