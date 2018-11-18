@@ -25,6 +25,19 @@ select count(customer_id), avg(amount)
 from sakila.payment
 where amount > 10.00; # count = 114, average payment is 11.08
 
+# Goal: Find the total payments made
+select count(payment_id)
+from sakila.payment; # 16049 payments were made
+
+# Goal: Find the amount of payments that involved staff_id 1 & staff_id 2
+select count(payment_id)
+from sakila.payment
+where staff_id = '1'; # Staff_id 1 = 8057
+
+select count(payment_id)
+from sakila.payment
+where staff_id = '2'; # Staff_id 2 = 7992
+
 #--------------------------------------------------
 select * 
 from sakila.rental;
@@ -47,6 +60,23 @@ select count(rental_id)
 from sakila.rental
 where staff_id = 2; #8004
 
+# Goal: Find the customer_id of the last rental_id
+select customer_id
+from sakila.rental
+order by rental_id desc
+limit 1; # id = 393
+
+# Goal: Determine if 393 was a repeat customer
+select count(rental_id)
+from sakila.rental 
+where customer_id = '393'; # Customer 393 had 31 rentals
+
+# Goal: Determine the 5 customers with the most rentals
+select customer_id, count(rental_id)
+from sakila.rental
+group by customer_id
+order by count(rental_id) DESC
+limit 5; # The top 5 customers are 148, 526, 236, 144, 75
 #------------------------------------------
 select * 
 from sakila.address;
